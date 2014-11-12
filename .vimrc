@@ -19,8 +19,10 @@ Plugin 'scrooloose/syntastic'
 Plugin 'scrooloose/nerdcommenter'
 Plugin 'Shougo/neocomplcache.vim'
 Plugin 'nathanaelkane/vim-indent-guides'
+Plugin 'SirVer/ultisnips'
 Plugin 'honza/vim-snippets'
-Plugin 'klen/python-mode'
+Plugin 'JazzCore/neocomplcache-ultisnips'
+"Plugin 'klen/python-mode'
 Plugin 'pangloss/vim-javascript'
 Plugin 'Raimondi/delimitMate'
 Plugin 'kchmck/vim-coffee-script'
@@ -28,11 +30,13 @@ Plugin 'kchmck/vim-coffee-script'
 
 " Themes
 Plugin 'morhetz/gruvbox'
+Plugin 'chriskempson/vim-tomorrow-theme'
+
 
 call vundle#end()            " required
+filetype plugin indent on
 
 syntax on
-filetype plugin indent on
 set nofoldenable
 set mouse=a
 set mousehide
@@ -94,7 +98,7 @@ autocmd BufNewFile,BufRead *.coffee set filetype=coffee
 
 " UI
 set background=dark             " Dark theme
-colorscheme gruvbox             " Load a colorscheme
+colorscheme Tomorrow-Night      " Load a colorscheme
 
 set tabpagemax=15               " Only show 15 tabs
 set showmode                    " Display the current mode
@@ -226,10 +230,13 @@ autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 
 " airline
 let g:airline_powerline_fonts=1
+let g:airline#extensions#tabline#enabled = 1
+
 
 " pymode
-let g:pymode_rope = 0
-let g:pymode_lint_checkers = ['pyflakes']
+"let g:pymode_rope = 0
+"let g:pymode_doc = 0
+"let g:pymode_lint_checkers = ['pyflakes']
 
 " indent-guides
 let g:indent_guides_enable_on_vim_startup = 1
