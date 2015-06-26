@@ -9,7 +9,7 @@ call vundle#begin('~/.vim/bundle/')
 
 " let Vundle manage Vundle, required
 Plugin 'gmarik/Vundle.vim'
-Plugin 'kien/ctrlp.vim'
+Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'tacahiroy/ctrlp-funky'
 Plugin 'tpope/vim-surround'
 Plugin 'tpope/vim-repeat'
@@ -17,28 +17,30 @@ Plugin 'tpope/vim-fugitive'
 Plugin 'bling/vim-airline'
 Plugin 'scrooloose/syntastic'
 Plugin 'scrooloose/nerdcommenter'
-Plugin 'Shougo/neocomplcache.vim'
-Plugin 'nathanaelkane/vim-indent-guides'
+Plugin 'Shougo/vimproc.vim'
+Plugin 'Valloric/YouCompleteMe'
+Plugin 'Shougo/unite.vim'
 Plugin 'SirVer/ultisnips'
 Plugin 'honza/vim-snippets'
-Plugin 'JazzCore/neocomplcache-ultisnips'
-"Plugin 'klen/python-mode'
+Plugin 'hdima/python-syntax'
+Plugin 'indentpython.vim'
 Plugin 'pangloss/vim-javascript'
 Plugin 'Raimondi/delimitMate'
+Plugin 'majutsushi/tagbar'
 Plugin 'kchmck/vim-coffee-script'
+Plugin 'wting/cheetah.vim'
+Plugin 'airblade/vim-gitgutter'
 
 
 " Themes
-Plugin 'morhetz/gruvbox'
-Plugin 'chriskempson/vim-tomorrow-theme'
+Plugin 'chriskempson/base16-vim'
 
 
 call vundle#end()            " required
 filetype plugin indent on
 
 syntax on
-set nofoldenable
-set mouse=a
+set mouse=
 set mousehide
 scriptencoding utf-8
 
@@ -97,8 +99,10 @@ autocmd BufNewFile,BufRead *.coffee set filetype=coffee
 
 
 " UI
+set t_Co=256                    " Apply 256 colors
 set background=dark             " Dark theme
-colorscheme Tomorrow-Night      " Load a colorscheme
+let base16colorspace=256
+colorscheme base16-ocean        " Load a colorscheme
 
 set tabpagemax=15               " Only show 15 tabs
 set showmode                    " Display the current mode
@@ -166,11 +170,16 @@ noremap k gk
 " Yank from the cursor to the end of the line, to be consistent with C and D.
 nnoremap Y y$
 
+" Yanked char goes to blackhole
+nnoremap x "_x
+
 " Find merge conflict markers
 map <leader>fc /\v^[<\|=>]{7}( .*\|$)<CR>
 
+nmap <F8> :TagbarOpenAutoClose<CR>
 
-
+" Disable Ex mode
+map Q <Nop>
 
 
 
@@ -207,37 +216,35 @@ let g:ctrlp_max_files = 0
 " ctrlp funky
 let g:ctrlp_extensions = ['funky']
 nnoremap <Leader>fu :CtrlPFunky<Cr>
+let g:ctrlp_funky_syntax_highlight = 1
 
 
-" neocomplcache
-let g:acp_enableAtStartup = 0
-" Use neocomplcache.
-let g:neocomplcache_enable_at_startup = 1
-" Use smartcase.
-let g:neocomplcache_enable_smart_case = 1
-" Set minimum syntax keyword length.
-let g:neocomplcache_min_syntax_length = 3
-let g:neocomplcache_lock_buffer_name_pattern = '\*ku\*'
-" <TAB>: completion.
-inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+"" YouCompleteMe
+let g:ycm_collect_identifiers_from_tags_files = 1
+nnoremap <leader>d :YcmCompleter GoTo<CR>
 
-" Enable omni completion.
-autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
-autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+" remap Ultisnips for compatibility for YCM
+let g:UltiSnipsExpandTrigger = '<C-j>'
+let g:UltiSnipsJumpForwardTrigger = '<C-j>'
+let g:UltiSnipsJumpBackwardTrigger = '<C-k>'
+
+
+"" Syntastic
+let g:syntastic_python_checkers = ['flake8']
+
 
 " airline
+set laststatus=2  " vim-airline doesn't appear until I create a new split
 let g:airline_powerline_fonts=1
 let g:airline#extensions#tabline#enabled = 1
-
-
-" pymode
-"let g:pymode_rope = 0
-"let g:pymode_doc = 0
-"let g:pymode_lint_checkers = ['pyflakes']
+let g:airline#extensions#tabline#show_buffers = 0
 
 " indent-guides
 let g:indent_guides_enable_on_vim_startup = 1
 let g:indent_guides_guide_size = 1
+
+" Tagbar
+let g:tagbar_sort = 0
+
+" repeat.vim
+silent! call repeat#set("\<Plug>MyWonderfulMap", v:count)
