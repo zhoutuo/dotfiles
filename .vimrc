@@ -17,23 +17,23 @@ Plugin 'tpope/vim-fugitive'
 Plugin 'bling/vim-airline'
 Plugin 'scrooloose/syntastic'
 Plugin 'scrooloose/nerdcommenter'
-Plugin 'Shougo/vimproc.vim'
 Plugin 'Valloric/YouCompleteMe'
-Plugin 'Shougo/unite.vim'
 Plugin 'SirVer/ultisnips'
 Plugin 'honza/vim-snippets'
-Plugin 'hdima/python-syntax'
 Plugin 'indentpython.vim'
 Plugin 'pangloss/vim-javascript'
 Plugin 'Raimondi/delimitMate'
 Plugin 'majutsushi/tagbar'
-Plugin 'kchmck/vim-coffee-script'
 Plugin 'wting/cheetah.vim'
 Plugin 'airblade/vim-gitgutter'
+Plugin 'mhinz/vim-startify'
 
 
 " Themes
-Plugin 'chriskempson/base16-vim'
+Plugin 'altercation/vim-colors-solarized'
+Plugin 'zenorocha/dracula-theme', {'rtp': 'vim/'}
+Plugin 'w0ng/vim-hybrid'
+
 
 
 call vundle#end()            " required
@@ -88,7 +88,7 @@ set splitbelow                  " Puts new split windows to the bottom of the cu
 
 " Remove trailing whitespaces and ^M chars
 " To disable the stripping of whitespace, add the following to your
-autocmd FileType c,cpp,java,go,php,javascript,puppet,python,rust,twig,xml,yml,perl autocmd BufWritePre <buffer> if !exists('g:spf13_keep_trailing_whitespace') | call StripTrailingWhitespace() | endif
+autocmd FileType c,cpp,java,go,php,javascript,puppet,python,rust,twig,xml,yml,perl autocmd BufWritePre <buffer> call StripTrailingWhitespace()
 "autocmd FileType go autocmd BufWritePre <buffer> Fmt
 autocmd BufNewFile,BufRead *.html.twig set filetype=html.twig
 autocmd FileType haskell,puppet,ruby,yml setlocal expandtab shiftwidth=2 softtabstop=2
@@ -99,10 +99,9 @@ autocmd BufNewFile,BufRead *.coffee set filetype=coffee
 
 
 " UI
-set t_Co=256                    " Apply 256 colors
 set background=dark             " Dark theme
-let base16colorspace=256
-colorscheme base16-ocean        " Load a colorscheme
+let g:hybrid_custom_term_colors = 1
+colorscheme hybrid              " Load a colorscheme
 
 set tabpagemax=15               " Only show 15 tabs
 set showmode                    " Display the current mode
@@ -220,8 +219,7 @@ let g:ctrlp_funky_syntax_highlight = 1
 
 
 "" YouCompleteMe
-let g:ycm_collect_identifiers_from_tags_files = 1
-nnoremap <leader>d :YcmCompleter GoTo<CR>
+"nnoremap <leader>d :YcmCompleter GoToDefinitionElseDeclaration<CR>
 
 " remap Ultisnips for compatibility for YCM
 let g:UltiSnipsExpandTrigger = '<C-j>'
