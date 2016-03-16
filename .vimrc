@@ -219,7 +219,8 @@ let g:ctrlp_funky_syntax_highlight = 1
 
 
 "" YouCompleteMe
-"nnoremap <leader>d :YcmCompleter GoToDefinitionElseDeclaration<CR>
+nnoremap <leader>d :YcmCompleter GoToDefinitionElseDeclaration<CR>
+let g:ycm_path_to_python_interpreter = '/usr/bin/python2.7'
 
 " remap Ultisnips for compatibility for YCM
 let g:UltiSnipsExpandTrigger = '<C-j>'
@@ -233,16 +234,32 @@ let g:syntastic_python_checkers = ['flake8']
 
 " airline
 set laststatus=2  " vim-airline doesn't appear until I create a new split
-let g:airline_powerline_fonts=1
+let g:airline_powerline_fonts=0
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#show_buffers = 0
 
-" indent-guides
-let g:indent_guides_enable_on_vim_startup = 1
-let g:indent_guides_guide_size = 1
+if !exists('g:airline_symbols')
+let g:airline_symbols = {}
+endif
+
+" unicode symbols
+let g:airline_left_sep = '»'
+let g:airline_right_sep = '«'
+let g:airline_symbols.crypt = '🔒'
+let g:airline_symbols.linenr = '¶'
+let g:airline_symbols.branch = '⎇'
+let g:airline_symbols.paste = 'ρ'
+let g:airline_symbols.notexists = '∄'
+let g:airline_symbols.whitespace = 'Ξ'
+
 
 " Tagbar
 let g:tagbar_sort = 0
 
 " repeat.vim
 silent! call repeat#set("\<Plug>MyWonderfulMap", v:count)
+
+" startify 
+let g:startify_custom_header = map(split(system('fortune | cowsay'), '\n'), '"   ". v:val') + ['','']
+let g:ctrlp_reuse_window = 'startify'
+let g:startify_change_to_dir = 0
