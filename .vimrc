@@ -1,3 +1,4 @@
+
 " General settings
 set nocompatible
 filetype off
@@ -10,6 +11,7 @@ call vundle#begin('~/.vim/bundle/')
 " let Vundle manage Vundle, required
 Plugin 'gmarik/Vundle.vim'
 Plugin 'ctrlpvim/ctrlp.vim'
+Plugin 'nixprime/cpsm'
 Plugin 'tacahiroy/ctrlp-funky'
 Plugin 'tpope/vim-surround'
 Plugin 'tpope/vim-repeat'
@@ -17,11 +19,12 @@ Plugin 'tpope/vim-fugitive'
 Plugin 'bling/vim-airline'
 Plugin 'scrooloose/syntastic'
 Plugin 'scrooloose/nerdcommenter'
-Plugin 'Valloric/YouCompleteMe'
 Plugin 'SirVer/ultisnips'
+Plugin 'shougo/neocomplete.vim'
 Plugin 'honza/vim-snippets'
 Plugin 'indentpython.vim'
 Plugin 'pangloss/vim-javascript'
+Plugin 'mxw/vim-jsx'
 Plugin 'Raimondi/delimitMate'
 Plugin 'majutsushi/tagbar'
 Plugin 'wting/cheetah.vim'
@@ -78,10 +81,10 @@ set undoreload=10000
 " Formating
 set nowrap                      " Do not wrap long lines
 set autoindent                  " Indent at the same level of the previous line
-set shiftwidth=4                " Use indents of 4 spaces
+set shiftwidth=2                " Use indents of 2 spaces
 set expandtab                   " Tabs are spaces, not tabs
-set tabstop=4                   " An indentation every four columns
-set softtabstop=4               " Let backspace delete indent
+set tabstop=2                   " An indentation every two columns
+set softtabstop=2               " Let backspace delete indent
 set nojoinspaces                " Prevents inserting two spaces after punctuation on a join (J)
 set splitright                  " Puts new vsplit windows to the right of the current
 set splitbelow                  " Puts new split windows to the bottom of the current
@@ -211,16 +214,25 @@ let g:ctrlp_custom_ignore = {
     \ 'file': '\.exe$\|\.so$\|\.dll$\|\.pyc$' }
 "let g:ctrlp_regexp = 1
 let g:ctrlp_max_files = 0
+let g:ctrlp_match_func = {'match' : 'cpsm#CtrlPMatch' }
 
 " ctrlp funky
 let g:ctrlp_extensions = ['funky']
 nnoremap <Leader>fu :CtrlPFunky<Cr>
 let g:ctrlp_funky_syntax_highlight = 1
 
+" neocomplete
+" Disable AutoComplPop.
+let g:acp_enableAtStartup = 0
+" Use neocomplete.
+let g:neocomplete#enable_at_startup = 1
+" Use smartcase.
+let g:neocomplete#enable_smart_case = 1
+" Set minimum syntax keyword length.
+let g:neocomplete#sources#syntax#min_keyword_length = 3
+" <TAB>: completion.
+inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
 
-"" YouCompleteMe
-nnoremap <leader>d :YcmCompleter GoToDefinitionElseDeclaration<CR>
-let g:ycm_path_to_python_interpreter = '/usr/bin/python2.7'
 
 " remap Ultisnips for compatibility for YCM
 let g:UltiSnipsExpandTrigger = '<C-j>'
