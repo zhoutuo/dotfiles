@@ -1,0 +1,5 @@
+map ,fu :action FileStructurePopup<CR>
+map <S-L> :action VimMotionNextTab<CR>
+map <S-H> :action VimMotionPreviousTab<CR>
+set surround
+set clipboard+=unnamed
