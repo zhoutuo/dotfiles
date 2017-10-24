@@ -10,26 +10,24 @@ call vundle#begin('~/.vim/bundle/')
 
 " let Vundle manage Vundle, required
 Plugin 'gmarik/Vundle.vim'
-Plugin 'ctrlpvim/ctrlp.vim'
-Plugin 'nixprime/cpsm'
-Plugin 'tacahiroy/ctrlp-funky'
+Plugin 'junegunn/fzf'
+Plugin 'junegunn/fzf.vim'
 Plugin 'tpope/vim-surround'
-Plugin 'tpope/vim-repeat'
 Plugin 'tpope/vim-fugitive'
 Plugin 'bling/vim-airline'
-Plugin 'scrooloose/syntastic'
 Plugin 'scrooloose/nerdcommenter'
 Plugin 'SirVer/ultisnips'
-Plugin 'shougo/neocomplete.vim'
+Plugin 'Shougo/deoplete.nvim'
 Plugin 'honza/vim-snippets'
-Plugin 'indentpython.vim'
 Plugin 'pangloss/vim-javascript'
 Plugin 'mxw/vim-jsx'
 Plugin 'Raimondi/delimitMate'
 Plugin 'majutsushi/tagbar'
-Plugin 'wting/cheetah.vim'
 Plugin 'airblade/vim-gitgutter'
 Plugin 'mhinz/vim-startify'
+Plugin 'tpope/vim-eunuch'
+Plugin 'vimwiki/vimwiki'
+Plugin 'w0rp/ale'
 
 
 " Themes
@@ -91,15 +89,12 @@ set splitbelow                  " Puts new split windows to the bottom of the cu
 
 " Remove trailing whitespaces and ^M chars
 " To disable the stripping of whitespace, add the following to your
-autocmd FileType c,cpp,java,go,php,javascript,puppet,python,rust,twig,xml,yml,perl autocmd BufWritePre <buffer> call StripTrailingWhitespace()
+autocmd FileType c,cpp,java,go,php,javascript,puppet,python,rust,twig,xml,yml,perl,ruby autocmd BufWritePre <buffer> call StripTrailingWhitespace()
 "autocmd FileType go autocmd BufWritePre <buffer> Fmt
 autocmd BufNewFile,BufRead *.html.twig set filetype=html.twig
 autocmd FileType haskell,puppet,ruby,yml setlocal expandtab shiftwidth=2 softtabstop=2
 " preceding line best in a plugin but here for now.
 autocmd BufNewFile,BufRead *.coffee set filetype=coffee
-
-
-
 
 " UI
 set background=dark             " Dark theme
@@ -199,37 +194,16 @@ function! StripTrailingWhitespace()
     call cursor(l, c)
 endfunction
 
-
-
-
+function CopyPath()
+  let @*=expand('%')
+endfunction
+command! -nargs=0 CopyPath     call CopyPath()
 
 
 "  Plugin Configurations
 
-" ctrlp
-let g:ctrlp_working_path_mode = 'ra'
-let g:ctrlp_user_command = ['.git/', 'cd %s && git ls-files --exclude-standard -co']
-let g:ctrlp_custom_ignore = {
-    \ 'dir':  '\.git$\|\.hg$\|\.svn$',
-    \ 'file': '\.exe$\|\.so$\|\.dll$\|\.pyc$' }
-"let g:ctrlp_regexp = 1
-let g:ctrlp_max_files = 0
-let g:ctrlp_match_func = {'match' : 'cpsm#CtrlPMatch' }
-
-" ctrlp funky
-let g:ctrlp_extensions = ['funky']
-nnoremap <Leader>fu :CtrlPFunky<Cr>
-let g:ctrlp_funky_syntax_highlight = 1
-
-" neocomplete
-" Disable AutoComplPop.
-let g:acp_enableAtStartup = 0
-" Use neocomplete.
-let g:neocomplete#enable_at_startup = 1
-" Use smartcase.
-let g:neocomplete#enable_smart_case = 1
-" Set minimum syntax keyword length.
-let g:neocomplete#sources#syntax#min_keyword_length = 3
+" Deoplete
+let g:deoplete#enable_at_startup = 1
 " <TAB>: completion.
 inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
 
@@ -238,10 +212,6 @@ inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
 let g:UltiSnipsExpandTrigger = '<C-j>'
 let g:UltiSnipsJumpForwardTrigger = '<C-j>'
 let g:UltiSnipsJumpBackwardTrigger = '<C-k>'
-
-
-"" Syntastic
-let g:syntastic_python_checkers = ['flake8']
 
 
 " airline
@@ -265,6 +235,13 @@ let g:airline_symbols.notexists = '∄'
 let g:airline_symbols.whitespace = 'Ξ'
 
 
+" Ale
+let g:ale_lint_on_text_changed = 'never'
+let g:ale_lint_on_enter = 0
+let g:ale_linter_aliases = {'javascript.jsx': 'javascript', 'jsx': 'javascript'}
+let g:ale_linters = { 'javascript': ['eslint'] }
+
+
 " Tagbar
 let g:tagbar_sort = 0
 
@@ -272,6 +249,11 @@ let g:tagbar_sort = 0
 silent! call repeat#set("\<Plug>MyWonderfulMap", v:count)
 
 " startify 
-let g:startify_custom_header = map(split(system('fortune | cowsay'), '\n'), '"   ". v:val') + ['','']
 let g:ctrlp_reuse_window = 'startify'
 let g:startify_change_to_dir = 0
+let g:startify_change_to_vcs_root = 1
+
+" fzf
+let g:fzf_layout = { 'down': '~40%' }
+nnoremap <C-P> :GFiles --exclude-standard -co<cr>
+nnoremap <Leader>fu :BLines<Cr>
