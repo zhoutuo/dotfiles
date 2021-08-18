@@ -1,5 +1,16 @@
 map ,fu :action FileStructurePopup<CR>
-map <S-L> :action VimMotionNextTab<CR>
-map <S-H> :action VimMotionPreviousTab<CR>
+map :vs :action ShiftRight<CR>
+nmap <S-L> :action NextTab<CR>
+nmap <S-H> :action PreviousTab<CR>
+
+nnoremap <C-L> :action NextSplitter<CR>
+nnoremap <C-H> :action PreviousSplitter<CR>
+nnoremap <C-o> :action Back<CR>
+nnoremap <C-i> :action Forward<CR>
+nnoremap <C-k> <Nop>
+
+
 set surround
 set clipboard+=unnamed
+set ideajoin
+set visualbell
