@@ -1,43 +1,44 @@
-
 " General settings
 set nocompatible
 filetype off
 
-" Vundle Setting
-" set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin('~/.vim/bundle/')
+" Plug Setting
+call plug#begin('~/.local/share/nvim/plugged')
 
-" let Vundle manage Vundle, required
-Plugin 'gmarik/Vundle.vim'
-Plugin 'junegunn/fzf'
-Plugin 'junegunn/fzf.vim'
-Plugin 'tpope/vim-surround'
-Plugin 'tpope/vim-fugitive'
-Plugin 'bling/vim-airline'
-Plugin 'scrooloose/nerdcommenter'
-Plugin 'SirVer/ultisnips'
-Plugin 'Shougo/deoplete.nvim'
-Plugin 'honza/vim-snippets'
-Plugin 'pangloss/vim-javascript'
-Plugin 'mxw/vim-jsx'
-Plugin 'Raimondi/delimitMate'
-Plugin 'majutsushi/tagbar'
-Plugin 'airblade/vim-gitgutter'
-Plugin 'mhinz/vim-startify'
-Plugin 'tpope/vim-eunuch'
-Plugin 'vimwiki/vimwiki'
-Plugin 'w0rp/ale'
+
+Plug 'junegunn/fzf'
+Plug 'junegunn/fzf.vim'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-rhubarb'
+Plug 'bling/vim-airline'
+Plug 'scrooloose/nerdcommenter'
+Plug 'SirVer/ultisnips'
+Plug 'Shougo/deoplete.nvim'
+Plug 'honza/vim-snippets'
+Plug 'pangloss/vim-javascript'
+Plug 'mxw/vim-jsx'
+Plug 'Raimondi/delimitMate'
+Plug 'majutsushi/tagbar'
+Plug 'airblade/vim-gitgutter'
+Plug 'mhinz/vim-startify'
+Plug 'tpope/vim-eunuch'
+Plug 'vimwiki/vimwiki'
+Plug 'Vimjas/vim-python-pep8-indent'
+Plug 'autowitch/hive.vim'
+Plug 'solarnz/thrift.vim'
+"Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 
 " Themes
-Plugin 'altercation/vim-colors-solarized'
-Plugin 'zenorocha/dracula-theme', {'rtp': 'vim/'}
-Plugin 'w0ng/vim-hybrid'
+Plug 'altercation/vim-colors-solarized'
+Plug 'zenorocha/dracula-theme', {'rtp': 'vim/'}
+Plug 'w0ng/vim-hybrid'
 
 
+" Initialize plugin system
+call plug#end()
 
-call vundle#end()            " required
 filetype plugin indent on
 
 syntax on
@@ -95,6 +96,11 @@ autocmd BufNewFile,BufRead *.html.twig set filetype=html.twig
 autocmd FileType haskell,puppet,ruby,yml setlocal expandtab shiftwidth=2 softtabstop=2
 " preceding line best in a plugin but here for now.
 autocmd BufNewFile,BufRead *.coffee set filetype=coffee
+
+" for .hql files
+au BufNewFile,BufRead *.hql set filetype=hive expandtab
+" for .q files
+au BufNewFile,BufRead *.q set filetype=hive expandtab
 
 " UI
 set background=dark             " Dark theme
@@ -199,6 +205,16 @@ function CopyPath()
 endfunction
 command! -nargs=0 CopyPath     call CopyPath()
 
+function PrintPath()
+  echo expand('%')
+endfunction
+command! -nargs=0 Path     call PrintPath()
+
+function CopyName()
+  let @*=expand('%:t')
+endfunction
+command! -nargs=0 CopyName     call CopyName()
+
 
 "  Plugin Configurations
 
@@ -235,11 +251,12 @@ let g:airline_symbols.notexists = '∄'
 let g:airline_symbols.whitespace = 'Ξ'
 
 
-" Ale
-let g:ale_lint_on_text_changed = 'never'
-let g:ale_lint_on_enter = 0
-let g:ale_linter_aliases = {'javascript.jsx': 'javascript', 'jsx': 'javascript'}
-let g:ale_linters = { 'javascript': ['eslint'] }
+"" Ale
+"let g:ale_lint_on_text_changed = 'never'
+"let g:ale_lint_on_enter = 0
+"let g:ale_linter_aliases = {'javascript.jsx': 'javascript', 'jsx': 'javascript'}
+"let g:ale_linters = { 'javascript': ['eslint'] }
+"let g:ale_javascript_eslint_use_global = 0
 
 
 " Tagbar
@@ -253,7 +270,10 @@ let g:ctrlp_reuse_window = 'startify'
 let g:startify_change_to_dir = 0
 let g:startify_change_to_vcs_root = 1
 
+let g:github_enterprise_urls = ['https://git.musta.ch']
+
 " fzf
 let g:fzf_layout = { 'down': '~40%' }
 nnoremap <C-P> :GFiles --exclude-standard -co<cr>
 nnoremap <Leader>fu :BLines<Cr>
+nnoremap <silent> <Leader>ag :Ag <C-R><C-W>\b<CR>
