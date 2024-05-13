@@ -1,12 +1,13 @@
 map ,fu :action FileStructurePopup<CR>
+map ,fi :action Switcher<CR>
 map :vs :action ShiftRight<CR>
 nmap <S-L> :action NextTab<CR>
 nmap <S-H> :action PreviousTab<CR>
 
 nnoremap <C-L> :action NextSplitter<CR>
 nnoremap <C-H> :action PreviousSplitter<CR>
-nnoremap <C-o> :action Back<CR>
-nnoremap <C-i> :action Forward<CR>
+nmap <C-o> <Action>(Back)
+nmap <C-i> <Action>(Forward)
 nnoremap <C-k> <Nop>
 
 
